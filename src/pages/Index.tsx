@@ -1,13 +1,20 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Hero from "@/components/Hero"
+import ValueProps from "@/components/ValueProps"
+import Pricing from "@/components/Pricing"
+import SandboxWidget from "@/components/SandboxWidget"
+import TrustLogos from "@/components/TrustLogos"
+import Footer from "@/components/Footer"
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <main className="min-h-screen">
+      <Hero />
+      <TrustLogos />
+      <ValueProps />
+      <SandboxWidget />
+      <Pricing />
+      <Footer />
+    </main>
   );
 };
 

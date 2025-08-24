@@ -2,95 +2,102 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* SnapBillz Premium Design System - Apple-inspired with marble accents */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
+    /* SnapBillz Brand Colors - HSL Format */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    --foreground: 215 25% 14%;
+    
+    /* Brand Orange System */
+    --orange-warm: 22 100% 70%;     /* #FF9F6B - Primary CTA */
+    --orange-soft: 24 100% 76%;     /* #FFB985 - Accents */
+    --orange-light: 25 100% 90%;    /* Light orange backgrounds */
+    --orange-dark: 20 90% 55%;      /* Hover states */
+    
+    /* Neutrals */
+    --neutral-50: 220 20% 98%;
+    --neutral-100: 220 14% 96%;
+    --neutral-200: 220 13% 91%;     /* #E6E9EE - Borders */
+    --neutral-300: 220 9% 83%;
+    --neutral-400: 218 11% 65%;
+    --neutral-500: 220 9% 46%;      /* #6B7280 - Muted text */
+    --neutral-600: 215 14% 34%;
+    --neutral-700: 215 25% 27%;
+    --neutral-800: 215 25% 14%;     /* #1F2933 - Main text */
+    --neutral-900: 215 28% 9%;
+    
+    /* Marble Overlay */
+    --marble-overlay: 240 8% 92%;   /* rgba(230,230,235,0.06) equivalent */
+    
+    /* Semantic Colors */
+    --primary: var(--orange-warm);
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: var(--orange-dark);
+    
+    --secondary: var(--neutral-100);
+    --secondary-foreground: var(--neutral-800);
+    
+    --accent: var(--orange-soft);
+    --accent-foreground: var(--neutral-800);
+    
+    --muted: var(--neutral-100);
+    --muted-foreground: var(--neutral-500);
+    
+    --border: var(--neutral-200);
+    --input: var(--neutral-200);
+    --ring: var(--orange-warm);
+    
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
+    --card-foreground: var(--neutral-800);
+    
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --popover-foreground: var(--neutral-800);
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Glass morphism effects */
+    --glass-bg: 0 0% 100% / 0.8;
+    --glass-border: var(--neutral-200) / 0.2;
+    
+    /* Gradients */
+    --gradient-orange: linear-gradient(135deg, hsl(var(--orange-warm)), hsl(var(--orange-soft)));
+    --gradient-marble: linear-gradient(135deg, hsl(var(--marble-overlay) / 0.03), hsl(var(--marble-overlay) / 0.08));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--neutral-50)));
+    
+    /* Shadows */
+    --shadow-soft: 0 2px 20px hsl(var(--neutral-900) / 0.08);
+    --shadow-medium: 0 8px 30px hsl(var(--neutral-900) / 0.12);
+    --shadow-orange: 0 8px 30px hsl(var(--orange-warm) / 0.25);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 215 28% 9%;
+    --foreground: 0 0% 98%;
+    
+    --card: 215 25% 12%;
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 215 25% 12%;
+    --popover-foreground: 0 0% 98%;
+    
+    --muted: 215 25% 14%;
+    --muted-foreground: var(--neutral-400);
+    
+    --border: 215 25% 18%;
+    --input: 215 25% 18%;
+    
+    --glass-bg: 215 28% 9% / 0.8;
+    --glass-border: 0 0% 100% / 0.1;
   }
 }
 
@@ -100,6 +107,96 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-[Inter,system-ui,sans-serif] antialiased;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Marble accent backgrounds */
+  .bg-marble {
+    background: var(--gradient-marble);
+  }
+  
+  .bg-hero {
+    background: var(--gradient-hero);
+  }
+  
+  /* Glass morphism */
+  .glass {
+    background: hsl(var(--glass-bg));
+    backdrop-filter: blur(12px) saturate(120%);
+    border: 1px solid hsl(var(--glass-border));
+  }
+  
+  /* Premium shadows */
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-medium {
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .shadow-orange {
+    box-shadow: var(--shadow-orange);
+  }
+  
+  /* Typography classes */
+  .text-hero {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
+  }
+  
+  .text-section {
+    @apply text-2xl md:text-3xl lg:text-4xl font-semibold;
+  }
+  
+  .text-body-lg {
+    @apply text-lg md:text-xl leading-relaxed;
+  }
+  
+  .text-body {
+    @apply text-base leading-relaxed;
+  }
+  
+  /* Smooth transitions */
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+  
+  /* Container max-widths */
+  .container-xl {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .container-lg {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Focus states */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
   }
 }
