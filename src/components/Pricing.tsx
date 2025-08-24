@@ -59,7 +59,7 @@ const Pricing = () => {
   }
 
   const getDiscountedPrice = (price: number) => {
-    return billingType === 'annual' ? Math.round(price * 0.83) : price
+    return billingType === 'annual' ? Math.round(price * 0.85) : price
   }
 
   const getSavings = (price: number) => {
@@ -99,7 +99,7 @@ const Pricing = () => {
             >
               Annual
               <span className="ml-2 px-2 py-1 bg-orange-light text-orange-dark text-xs rounded-full">
-                Save 17%
+                Save 15%
               </span>
             </button>
           </div>
@@ -132,7 +132,7 @@ const Pricing = () => {
                 <div className="flex items-baseline justify-center gap-1 mb-2">
                   <span className="text-4xl font-bold">₹{getDiscountedPrice(plan.price)}</span>
                   <span className="text-muted-foreground">
-                    /{billingType === 'monthly' ? 'month' : 'year'}
+                    /month
                   </span>
                 </div>
                 
