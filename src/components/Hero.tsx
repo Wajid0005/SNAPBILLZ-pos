@@ -1,13 +1,17 @@
 import { Button } from "@/components/ui/button"
 import { Play, ArrowRight, CheckCircle } from "lucide-react"
-import heroImage from "@/assets/hero-phone-mockup.jpg"
+import FeaturesCarousel from "@/components/FeaturesCarousel"
 
 const Hero = () => {
   const handleDemoClick = () => {
+    // Track demo event
+    console.log('demo_taken', { source: 'hero_demo_button' })
     window.open("https://snapbillz.lovable.app/", "_blank")
   }
 
   const handleCreateStoreClick = () => {
+    // Track signup intent
+    console.log('signup_started', { source: 'hero_create_store' })
     window.open("https://snapbillz.lovable.app/", "_blank")
   }
 
@@ -17,6 +21,15 @@ const Hero = () => {
       <div className="absolute inset-0 bg-marble opacity-30" />
       
       <div className="container-xl relative z-10">
+        {/* Top Tagline */}
+        <div className="text-center mb-12">
+          <h1 className="text-hero mb-2">SNAPBILLZ</h1>
+          <p className="text-body-lg text-muted-foreground">
+            <span className="text-orange-warm font-medium">simple</span> - <span className="text-orange-warm font-medium">fast</span> - <span className="text-orange-warm font-medium">affordable</span>
+          </p>
+          <p className="text-body text-muted-foreground mt-2">Your smart e-billing system inside your phone</p>
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Column - Hero Content */}
           <div className="text-center lg:text-left">
@@ -25,10 +38,10 @@ const Hero = () => {
               Now live in India
             </div>
             
-            <h1 className="text-hero mb-6">
-              SnapBillz — UPI billing that{" "}
+            <h2 className="text-section mb-6">
+              UPI billing that{" "}
               <span className="text-orange-warm">just works</span>
-            </h1>
+            </h2>
             
             <p className="text-body-lg text-muted-foreground mb-8 max-w-lg lg:max-w-none">
               Create unique store apps, generate dynamic QR per invoice, and send instant receipts. 
@@ -61,7 +74,7 @@ const Hero = () => {
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
                 <CheckCircle className="w-4 h-4 text-orange-warm" />
-                14-day free trial
+                5-day free trial
               </div>
               <div className="flex items-center gap-1">
                 <CheckCircle className="w-4 h-4 text-orange-warm" />
@@ -74,15 +87,9 @@ const Hero = () => {
             </div>
           </div>
           
-          {/* Right Column - Device Mockup */}
+          {/* Right Column - Features Carousel */}
           <div className="relative">
-            <div className="relative z-10">
-              <img 
-                src={heroImage} 
-                alt="SnapBillz app interface showing dynamic QR code generation"
-                className="w-full max-w-lg mx-auto drop-shadow-2xl hover:scale-105 transition-smooth"
-              />
-            </div>
+            <FeaturesCarousel />
             
             {/* Floating elements */}
             <div className="absolute -top-8 -right-8 w-24 h-24 bg-orange-soft/20 rounded-full blur-xl animate-pulse" />

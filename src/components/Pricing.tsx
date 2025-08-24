@@ -17,7 +17,7 @@ const plans = [
   },
   {
     name: "Pro", 
-    price: 449,
+    price: 499,
     description: "Most popular for growing businesses",
     features: [
       "Everything in Basic",
@@ -29,7 +29,7 @@ const plans = [
   },
   {
     name: "Advance",
-    price: 649, 
+    price: 899, 
     description: "Complete solution for busy merchants",
     features: [
       "Everything in Pro",
@@ -54,6 +54,7 @@ const Pricing = () => {
   const handleStartTrial = (planName: string) => {
     // Track analytics event
     console.log('plan_selected', { plan_id: planName })
+    console.log('checkout_started', { plan: planName, source: 'pricing_page' })
     window.open("https://snapbillz.lovable.app/", "_blank")
   }
 
@@ -73,7 +74,7 @@ const Pricing = () => {
             Pricing made <span className="text-orange-warm">simple</span>
           </h2>
           <p className="text-body-lg text-muted-foreground mb-8">
-            Monthly & annual billing. 14-day free trial. Switch anytime.
+            Monthly & annual billing. 5-day free trial. Switch anytime.
           </p>
           
           {/* Billing toggle */}
