@@ -70,11 +70,25 @@ const HonestMetrics = () => {
           )}
 
           <Button 
-            onClick={handleTryApp}
+            onClick={() => handleRating(userRating)}
+            disabled={userRating === 0}
             variant="hero"
+            size="sm"
+            className="w-full mb-3"
+          >
+            Submit Rating
+          </Button>
+
+          <p className="text-xs text-center text-muted-foreground mb-3">
+            Didn't tried the app yet?
+          </p>
+
+          <Button 
+            onClick={handleTryApp}
+            variant="outline"
             className="w-full group"
           >
-            {hasTriedApp ? "Try Again" : "Go Try App"}
+            Go Try App
             <ArrowRight className="group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>

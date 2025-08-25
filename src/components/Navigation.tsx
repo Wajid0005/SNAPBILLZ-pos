@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import logo from "@/assets/logo.png"
 
 const Navigation = () => {
   const handleLoginClick = () => {
@@ -16,8 +17,11 @@ const Navigation = () => {
   return (
     <nav className="absolute top-0 left-0 right-0 z-50 bg-transparent">
       <div className="container-xl flex justify-between items-center py-4">
-        <div className="text-2xl font-bold text-foreground">
-          SNAPBILLZ
+        <div className="flex items-center gap-3">
+          <img src={logo} alt="SnapBillz Logo" className="w-10 h-10" />
+          <div className="text-2xl font-bold text-foreground">
+            SNAPBILLZ
+          </div>
         </div>
         
         <div className="flex items-center gap-4">

@@ -4,78 +4,66 @@ import { Card, CardContent } from "@/components/ui/card"
 import { useAutoplay } from "@/hooks/use-autoplay"
 
 // Import all feature images
-import dynamicQrImage from "@/assets/features/dynamic-qr.jpg"
-import uniqueStoreAppsImage from "@/assets/features/unique-store-apps.jpg"
-import instantNotificationsImage from "@/assets/features/instant-notifications.jpg"
-import offlineBillingImage from "@/assets/features/offline-billing.jpg"
-import analyticsDashboardImage from "@/assets/features/analytics-dashboard.jpg"
-import gstInvoicesImage from "@/assets/features/gst-invoices.jpg"
-import multiUserAccessImage from "@/assets/features/multi-user-access.jpg"
-import smsWhatsappReceiptsImage from "@/assets/features/sms-whatsapp-receipts.jpg"
-import inventoryTrackingImage from "@/assets/features/inventory-tracking.jpg"
-import whiteLabelBrandingImage from "@/assets/features/white-label-branding.jpg"
+import oneTapSmartBillingImage from "@/assets/features/one-tap-smart-billing.png"
+import floatingDynamicQrImage from "@/assets/features/floating-dynamic-qr.png"
+import multiLanguageInterfaceImage from "@/assets/features/multi-language-interface.png"
+import smartUpiSoundboxImage from "@/assets/features/smart-upi-soundbox.png"
+import smartInventoryAiImage from "@/assets/features/smart-inventory-ai.png"
+import autoGstTaxCalculatorImage from "@/assets/features/auto-gst-tax-calculator.png"
+import snapAnalyticsDashboardImage from "@/assets/features/snap-analytics-dashboard.png"
+import voiceToBillCommandImage from "@/assets/features/voice-to-bill-command.png"
 
 const features = [
   {
-    image: dynamicQrImage,
-    title: "Dynamic Per-Invoice QR",
-    tagline: "Every invoice, its own QR — no repeats, no fraud."
+    image: oneTapSmartBillingImage,
+    title: "One-Tap Smart Billing",
+    tagline: "Generate a bill in under 3 seconds with AI-assisted auto-fill of customer details"
   },
   {
-    image: uniqueStoreAppsImage,
-    title: "Unique Store Apps",
-    tagline: "Every shop, its own app — personalised, professional."
+    image: floatingDynamicQrImage,
+    title: "Floating Dynamic QR Code",
+    tagline: "A rotating QR system that changes every few seconds for enhanced payment security"
   },
   {
-    image: instantNotificationsImage,
-    title: "Instant Payment Notifications",
-    tagline: "No guessing. Instant UPI payment alerts like a soundbox."
+    image: multiLanguageInterfaceImage,
+    title: "Multi-Language Interface",
+    tagline: "Hinglish + Regional — No other billing app speaks like your customer base"
   },
   {
-    image: offlineBillingImage,
-    title: "Offline Billing Mode",
-    tagline: "No network? Still bill. Sync when back online."
+    image: smartUpiSoundboxImage,
+    title: "Smart UPI Soundbox Simulation",
+    tagline: "Payment confirmations with custom audio alerts (brand name or shop name announced)"
   },
   {
-    image: analyticsDashboardImage,
-    title: "Advanced Analytics Dashboard",
-    tagline: "Numbers that talk — track sales, trends, and growth."
+    image: smartInventoryAiImage,
+    title: "Smart Inventory AI",
+    tagline: "Predicts stock shortages and suggests reorder levels before you even notice"
   },
   {
-    image: gstInvoicesImage,
-    title: "GST-Ready Invoices",
-    tagline: "Tax compliance? Auto-done. GST-ready receipts in one click."
+    image: autoGstTaxCalculatorImage,
+    title: "Auto GST & Tax Smart Calculator",
+    tagline: "Automatically applies the correct GST slab and updates with government rules"
   },
   {
-    image: multiUserAccessImage,
-    title: "Multi-User Staff Access",
-    tagline: "One business, many hands. Secure role-based access."
+    image: snapAnalyticsDashboardImage,
+    title: "Snap Analytics Dashboard",
+    tagline: "AI-driven insights showing top-selling products, busiest times, and smart profit tips"
   },
   {
-    image: smsWhatsappReceiptsImage,
-    title: "Real-time SMS/WhatsApp Receipts",
-    tagline: "Your customer gets the bill before leaving the counter."
-  },
-  {
-    image: inventoryTrackingImage,
-    title: "Inventory Auto-Tracking",
-    tagline: "Sell. Update. Repeat. Real-time inventory tracking made easy."
-  },
-  {
-    image: whiteLabelBrandingImage,
-    title: "White-Label Branding Option",
-    tagline: "Your brand, our tech. White-label your billing app."
+    image: voiceToBillCommandImage,
+    title: "Voice-to-Bill Command",
+    tagline: "Speak product names and quantities; SNAPBILLZ creates a bill in real time"
   }
 ]
 
 const FeaturesCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  // Auto-advance slides every 4 seconds
+  // Auto-advance slides every 3.5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % features.length)
-    }, 4000)
+    }, 3500)
 
     return () => clearInterval(interval)
   }, [])

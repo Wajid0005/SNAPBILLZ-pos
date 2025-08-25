@@ -5,14 +5,15 @@ import { QrCode, ArrowRight, IndianRupee } from "lucide-react"
 
 const SandboxWidget = () => {
   const [amount, setAmount] = useState<string>("")
+  const [upiId, setUpiId] = useState<string>("")
   const [isGenerating, setIsGenerating] = useState(false)
   
   const handleGenerateQR = () => {
-    if (!amount || isNaN(Number(amount))) return
+    if (!amount || isNaN(Number(amount)) || !upiId) return
     
     setIsGenerating(true)
     
-    // Simulate QR generation
+    // Simulate QR generation with UPI ID and amount
     setTimeout(() => {
       setIsGenerating(false)
       // Redirect to demo app
@@ -45,6 +46,16 @@ const SandboxWidget = () => {
           
           <div className="space-y-4">
             <div className="relative">
+              <Input
+                type="text"
+                placeholder="Enter your UPI ID (e.g., yourname@paytm)"
+                value={upiId}
+                onChange={(e) => setUpiId(e.target.value)}
+                className="h-12 text-lg"
+              />
+            </div>
+            
+            <div className="relative">
               <IndianRupee className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 type="number"
@@ -58,7 +69,7 @@ const SandboxWidget = () => {
             
             <Button
               onClick={handleGenerateQR}
-              disabled={!amount || isNaN(Number(amount)) || isGenerating}
+              disabled={!amount || isNaN(Number(amount)) || !upiId || isGenerating}
               size="lg"
               className="w-full group"
             >
@@ -78,6 +89,9 @@ const SandboxWidget = () => {
           
           <div className="mt-6 p-4 bg-orange-light/20 rounded-xl">
             <p className="text-sm text-center text-muted-foreground">
+              Your UPI ID is safe. This feature is just for User Experience. You are safe.
+            </p>
+            <p className="text-xs text-center text-muted-foreground mt-2">
               This will open our full demo where you can experience the complete SnapBillz workflow
             </p>
           </div>
