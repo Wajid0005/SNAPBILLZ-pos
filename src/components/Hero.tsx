@@ -48,26 +48,60 @@ const Hero = () => {
               <span className="text-foreground font-medium"> No drama.</span>
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
-              <Button 
-                variant="hero" 
-                size="xl"
-                onClick={handleCreateStoreClick}
-                className="group"
-              >
-                Create free store
-                <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-              </Button>
-              
-              <Button 
-                variant="heroOutline" 
-                size="xl"
-                onClick={handleDemoClick}
-                className="group"
-              >
-                <Play className="group-hover:scale-110 transition-transform" />
-                Watch demo
-              </Button>
+            <div className="mb-8">
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
+                <Button 
+                  variant="hero" 
+                  size="xl"
+                  onClick={handleCreateStoreClick}
+                  className="group"
+                >
+                  Create free store
+                  <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                </Button>
+                
+                <Button 
+                  variant="heroOutline" 
+                  size="xl"
+                  onClick={handleDemoClick}
+                  className="group"
+                >
+                  <Play className="group-hover:scale-110 transition-transform" />
+                  Try Now
+                </Button>
+              </div>
+
+              {/* Feature Images Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto lg:mx-0">
+                <div className="bg-card rounded-xl p-4 shadow-soft border hover:shadow-medium transition-shadow">
+                  <div className="w-12 h-12 bg-orange-light/20 rounded-lg flex items-center justify-center mb-2">
+                    <CheckCircle className="w-6 h-6 text-orange-warm" />
+                  </div>
+                  <p className="text-xs font-medium text-foreground">Dynamic QR</p>
+                </div>
+                
+                <div className="bg-card rounded-xl p-4 shadow-soft border hover:shadow-medium transition-shadow">
+                  <div className="w-12 h-12 bg-orange-light/20 rounded-lg flex items-center justify-center mb-2">
+                    <CheckCircle className="w-6 h-6 text-orange-warm" />
+                  </div>
+                  <p className="text-xs font-medium text-foreground">Smart AI</p>
+                </div>
+                
+                <div className="bg-card rounded-xl p-4 shadow-soft border hover:shadow-medium transition-shadow">
+                  <div className="w-12 h-12 bg-orange-light/20 rounded-lg flex items-center justify-center mb-2">
+                    <CheckCircle className="w-6 h-6 text-orange-warm" />
+                  </div>
+                  <p className="text-xs font-medium text-foreground">Voice Commands</p>
+                </div>
+                
+                <div className="bg-card rounded-xl p-4 shadow-soft border hover:shadow-medium transition-shadow">
+                  <div className="w-12 h-12 bg-orange-light/20 rounded-lg flex items-center justify-center mb-2">
+                    <CheckCircle className="w-6 h-6 text-orange-warm" />
+                  </div>
+                  <p className="text-xs font-medium text-foreground">Multi-Language</p>
+                </div>
+              </div>
             </div>
             
             {/* Trust indicators */}
