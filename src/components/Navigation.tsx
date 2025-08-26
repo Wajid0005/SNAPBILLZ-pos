@@ -1,47 +1,105 @@
 import { Button } from "@/components/ui/button"
-import logo from "@/assets/logo.png"
+import { useState } from "react"
+import { Link, useLocation } from "react-router-dom"
+import AuthModal from "./AuthModal"
 
 const Navigation = () => {
+  const [showAuth, setShowAuth] = useState(false)
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
+  const location = useLocation()
+
   const handleLoginClick = () => {
-    console.log('login_clicked', { source: 'navigation' })
-    // Will redirect when Supabase is connected
-    window.open("https://snapbillz.lovable.app/", "_blank")
+    setAuthMode('login')
+    setShowAuth(true)
   }
 
   const handleSignupClick = () => {
-    console.log('signup_clicked', { source: 'navigation' })
-    // Will redirect when Supabase is connected
-    window.open("https://snapbillz.lovable.app/", "_blank")
+    setAuthMode('signup')
+    setShowAuth(true)
   }
 
+  const navLinks = [
+    { href: '/', label: 'Home' },
+    { href: '/features', label: 'Features' },
+    { href: '/pricing', label: 'Pricing' },
+    { href: '/about', label: 'About' },
+    { href: '/contact', label: 'Contact' }
+  ]
+
   return (
-    <nav className="absolute top-0 left-0 right-0 z-50 bg-transparent">
-      <div className="container-xl flex justify-between items-center py-4">
-        <div className="flex items-center gap-3">
-          <img src={logo} alt="SnapBillz Logo" className="w-10 h-10" />
-          <div className="text-2xl font-bold text-foreground">
-            SNAPBILLZ
+    <>
+      <nav className="absolute top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
+        <div className="container-xl flex justify-between items-center py-4">
+          {/* Centered Brand Name */}
+          <div className="flex-1">
+            <Link to="/" className="text-2xl font-bold text-foreground hover:text-primary transition-smooth">
+              SNAPBILLZ
+            </Link>
+          </div>
+          
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center space-x-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className={`text-sm font-medium transition-smooth hover:text-primary ${
+                  location.pathname === link.href
+                    ? 'text-primary'
+                    : 'text-muted-foreground'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+          
+          {/* Auth Buttons */}
+          <div className="flex items-center gap-4 flex-1 justify-end">
+            <Button 
+              variant="ghost" 
+              onClick={handleLoginClick}
+              className="text-foreground hover:text-primary"
+            >
+              Login
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={handleSignupClick}
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+            >
+              Sign Up
+            </Button>
           </div>
         </div>
         
-        <div className="flex items-center gap-4">
-          <Button 
-            variant="ghost" 
-            onClick={handleLoginClick}
-            className="text-foreground hover:text-orange-warm"
-          >
-            Login
-          </Button>
-          <Button 
-            variant="outline" 
-            onClick={handleSignupClick}
-            className="border-orange-warm text-orange-warm hover:bg-orange-warm hover:text-white"
-          >
-            Sign Up
-          </Button>
+        {/* Mobile Navigation */}
+        <div className="md:hidden px-4 pb-4">
+          <div className="flex flex-wrap gap-4 justify-center">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className={`text-sm font-medium transition-smooth hover:text-primary ${
+                  location.pathname === link.href
+                    ? 'text-primary'
+                    : 'text-muted-foreground'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      <AuthModal 
+        isOpen={showAuth}
+        onClose={() => setShowAuth(false)}
+        mode={authMode}
+        onSwitchMode={() => setAuthMode(authMode === 'login' ? 'signup' : 'login')}
+      />
+    </>
   )
 }
 
