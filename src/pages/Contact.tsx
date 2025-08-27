@@ -1,9 +1,49 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import { Mail, Phone, Linkedin, MapPin, Clock, Coffee } from "lucide-react"
+import { useState } from "react"
+import { toast } from "sonner"
 import Navigation from "@/components/Navigation"
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    subject: '',
+    message: ''
+  })
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+
+    try {
+      // Here you would typically send the message via API
+      toast.success("Message sent successfully! We'll get back to you soon.")
+      
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        subject: '',
+        message: ''
+      })
+    } catch (error) {
+      toast.error("Failed to send message. Please try again.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }))
+  }
   const contactInfo = [
     {
       icon: <Mail className="h-6 w-6" />,
@@ -107,65 +147,88 @@ const Contact = () => {
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="firstName" className="block text-sm font-medium text-foreground mb-2">
+                          First Name
+                        </Label>
+                        <Input 
+                          id="firstName"
+                          type="text" 
+                          value={formData.firstName}
+                          onChange={(e) => handleChange('firstName', e.target.value)}
+                          placeholder="Enter your first name"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="lastName" className="block text-sm font-medium text-foreground mb-2">
+                          Last Name
+                        </Label>
+                        <Input 
+                          id="lastName"
+                          type="text" 
+                          value={formData.lastName}
+                          onChange={(e) => handleChange('lastName', e.target.value)}
+                          placeholder="Enter your last name"
+                          required
+                        />
+                      </div>
+                    </div>
+
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        First Name
-                      </label>
-                      <input 
-                        type="text" 
-                        className="w-full px-4 py-3 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-smooth"
-                        placeholder="Enter your first name"
+                      <Label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                        Email Address
+                      </Label>
+                      <Input 
+                        id="email"
+                        type="email" 
+                        value={formData.email}
+                        onChange={(e) => handleChange('email', e.target.value)}
+                        placeholder="Enter your email"
+                        required
                       />
                     </div>
+
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        Last Name
-                      </label>
-                      <input 
+                      <Label htmlFor="subject" className="block text-sm font-medium text-foreground mb-2">
+                        Subject
+                      </Label>
+                      <Input 
+                        id="subject"
                         type="text" 
-                        className="w-full px-4 py-3 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-smooth"
-                        placeholder="Enter your last name"
+                        value={formData.subject}
+                        onChange={(e) => handleChange('subject', e.target.value)}
+                        placeholder="How can we help you?"
+                        required
                       />
                     </div>
-                  </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Email Address
-                    </label>
-                    <input 
-                      type="email" 
-                      className="w-full px-4 py-3 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-smooth"
-                      placeholder="Enter your email"
-                    />
-                  </div>
+                    <div>
+                      <Label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                        Message
+                      </Label>
+                      <Textarea 
+                        id="message"
+                        rows={5}
+                        value={formData.message}
+                        onChange={(e) => handleChange('message', e.target.value)}
+                        placeholder="Tell us more about your inquiry..."
+                        required
+                      />
+                    </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Subject
-                    </label>
-                    <input 
-                      type="text" 
-                      className="w-full px-4 py-3 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-smooth"
-                      placeholder="How can we help you?"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Message
-                    </label>
-                    <textarea 
-                      rows={5}
-                      className="w-full px-4 py-3 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-smooth resize-none"
-                      placeholder="Tell us more about your inquiry..."
-                    />
-                  </div>
-
-                  <Button className="w-full" variant="hero" size="lg">
-                    Send Message
-                  </Button>
+                    <Button 
+                      type="submit" 
+                      className="w-full" 
+                      variant="hero" 
+                      size="lg"
+                      disabled={loading}
+                    >
+                      {loading ? 'Sending...' : 'Send Message'}
+                    </Button>
+                  </form>
 
                   <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
                     <Coffee className="h-4 w-4" />

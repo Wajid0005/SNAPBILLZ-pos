@@ -21,10 +21,12 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
     phone: '',
     email: '',
     occupation: '',
-    password: ''
+    password: '',
+    otp: ''
   })
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [otpSent, setOtpSent] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,35 +34,43 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
 
     try {
       if (mode === 'login') {
-        // For login, we'll use name as identifier for now
+        // For login, we'll use phone and password
         toast.success("Login functionality will be implemented with backend integration")
       } else {
-        // For signup, insert data into our custom users table
-        const { error } = await supabase
-          .from('users')
-          .insert([
-            {
-              name: formData.name,
-              phone: formData.phone,
-              email: formData.email || null,
-              occupation: formData.occupation,
-              password_hash: formData.password // In production, this should be properly hashed
-            }
-          ])
+        if (!otpSent) {
+          // Send OTP to phone number
+          toast.success("OTP sent to your phone number!")
+          setOtpSent(true)
+        } else {
+          // Verify OTP and create account
+          const { error } = await supabase
+            .from('users')
+            .insert([
+              {
+                name: formData.name,
+                phone: formData.phone,
+                email: formData.email || null,
+                occupation: formData.occupation,
+                password_hash: formData.password // In production, this should be properly hashed
+              }
+            ])
 
-        if (error) throw error
+          if (error) throw error
 
-        toast.success("Account created successfully! Welcome to SnapBillz!")
-        
-        // Reset form and close modal
-        setFormData({
-          name: '',
-          phone: '',
-          email: '',
-          occupation: '',
-          password: ''
-        })
-        onClose()
+          toast.success("Account created successfully! Welcome to SnapBillz!")
+          
+          // Reset form and close modal
+          setFormData({
+            name: '',
+            phone: '',
+            email: '',
+            occupation: '',
+            password: '',
+            otp: ''
+          })
+          setOtpSent(false)
+          onClose()
+        }
       }
     } catch (error: any) {
       toast.error(error.message || "Something went wrong")
@@ -104,8 +114,20 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
             />
           </div>
 
-          {/* Signup specific fields */}
-          {mode === 'signup' && (
+          {/* Phone Field */}
+          {mode === 'login' ? (
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone Number</Label>
+              <Input
+                id="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => handleChange('phone', e.target.value)}
+                placeholder="Enter your phone number"
+                required
+              />
+            </div>
+          ) : (
             <>
               {/* Phone Field */}
               <div className="space-y-2">
@@ -117,37 +139,57 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
                   onChange={(e) => handleChange('phone', e.target.value)}
                   placeholder="Enter your phone number"
                   required
+                  disabled={otpSent}
                 />
               </div>
+
+              {otpSent && (
+                <div className="space-y-2">
+                  <Label htmlFor="otp">Enter OTP</Label>
+                  <Input
+                    id="otp"
+                    type="text"
+                    value={formData.otp}
+                    onChange={(e) => handleChange('otp', e.target.value)}
+                    placeholder="Enter 6-digit OTP"
+                    maxLength={6}
+                    required
+                  />
+                </div>
+              )}
 
               {/* Email Field (Optional) */}
-              <div className="space-y-2">
-                <Label htmlFor="email">Email (Optional)</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                  placeholder="Enter your email address"
-                />
-              </div>
+              {!otpSent && (
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email (Optional)</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    placeholder="Enter your email address"
+                  />
+                </div>
+              )}
 
               {/* Occupation Field */}
-              <div className="space-y-2">
-                <Label htmlFor="occupation">Occupation</Label>
-                <Textarea
-                  id="occupation"
-                  value={formData.occupation}
-                  onChange={(e) => handleChange('occupation', e.target.value)}
-                  placeholder="Describe your occupation or business"
-                  rows={2}
-                  maxLength={100}
-                  required
-                />
-                <p className="text-xs text-muted-foreground">
-                  {formData.occupation.length}/100 characters
-                </p>
-              </div>
+              {!otpSent && (
+                <div className="space-y-2">
+                  <Label htmlFor="occupation">Occupation</Label>
+                  <Textarea
+                    id="occupation"
+                    value={formData.occupation}
+                    onChange={(e) => handleChange('occupation', e.target.value)}
+                    placeholder="Describe your occupation or business"
+                    rows={2}
+                    maxLength={100}
+                    required
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    {formData.occupation.length}/100 characters
+                  </p>
+                </div>
+              )}
             </>
           )}
 
@@ -182,7 +224,9 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
             variant="hero"
             disabled={loading}
           >
-            {loading ? 'Processing...' : (mode === 'login' ? 'Sign In' : 'Create Account')}
+            {loading ? 'Processing...' : 
+             mode === 'login' ? 'Sign In' : 
+             !otpSent ? 'Send OTP' : 'Verify & Create Account'}
           </Button>
         </form>
 

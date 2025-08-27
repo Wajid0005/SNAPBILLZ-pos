@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import AuthModal from "./AuthModal"
+import snapbillzLogo from "@/assets/snapbillz-logo.png"
 
 const Navigation = () => {
   const [showAuth, setShowAuth] = useState(false)
@@ -30,9 +31,14 @@ const Navigation = () => {
     <>
       <nav className="absolute top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
         <div className="container-xl flex justify-between items-center py-4">
-          {/* Centered Brand Name */}
+          {/* Logo and Brand Name */}
           <div className="flex-1">
-            <Link to="/" className="text-2xl font-bold text-foreground hover:text-primary transition-smooth">
+            <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-foreground hover:text-primary transition-smooth">
+              <img 
+                src={snapbillzLogo} 
+                alt="Snapbillz Logo" 
+                className="w-8 h-8"
+              />
               SNAPBILLZ
             </Link>
           </div>

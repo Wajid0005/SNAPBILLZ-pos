@@ -2,9 +2,19 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Check } from "lucide-react"
+import { useState } from "react"
 import Navigation from "@/components/Navigation"
 
 const Pricing = () => {
+  const [isAnnual, setIsAnnual] = useState(false)
+  const getPrice = (monthlyPrice: number) => {
+    if (isAnnual) {
+      const annualPrice = monthlyPrice * 12 * 0.88 // 12% discount
+      return Math.round(annualPrice)
+    }
+    return monthlyPrice
+  }
+
   const plans = [
     {
       name: "Starter",
@@ -76,6 +86,33 @@ const Pricing = () => {
           <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto">
             Choose the perfect plan for your business. All plans include core features with no hidden fees.
           </p>
+          
+          {/* Billing Toggle */}
+          <div className="flex items-center justify-center gap-4 mt-8">
+            <span className={`text-sm ${!isAnnual ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>
+              Monthly
+            </span>
+            <button
+              onClick={() => setIsAnnual(!isAnnual)}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                isAnnual ? 'bg-primary' : 'bg-muted'
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  isAnnual ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+            <span className={`text-sm ${isAnnual ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>
+              Annual
+            </span>
+            {isAnnual && (
+              <Badge className="bg-green-100 text-green-800 border-green-200">
+                Save 12%
+              </Badge>
+            )}
+          </div>
         </div>
 
         {/* Pricing Cards */}
@@ -96,8 +133,11 @@ const Pricing = () => {
                 </CardTitle>
                 <div className="space-y-2">
                   <div className="flex items-center justify-center space-x-2">
-                    <span className="text-4xl font-bold text-foreground">₹{plan.price}</span>
-                    <span className="text-muted-foreground">/month</span>
+                    {isAnnual && (
+                      <span className="text-lg text-muted-foreground line-through">₹{plan.price * 12}</span>
+                    )}
+                    <span className="text-4xl font-bold text-foreground">₹{getPrice(plan.price)}</span>
+                    <span className="text-muted-foreground">/{isAnnual ? 'year' : 'month'}</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
                     {plan.description}

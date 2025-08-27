@@ -1,20 +1,14 @@
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
-import AuthModal from "@/components/AuthModal"
 import Navigation from "@/components/Navigation"
+import snapbillzLogo from "@/assets/snapbillz-logo.png"
 
 const Home = () => {
-  const [showAuth, setShowAuth] = useState(false)
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('signup')
-
   const handleCreateStore = () => {
-    setAuthMode('signup')
-    setShowAuth(true)
+    window.open("https://snapbillz.lovable.app/", "_blank")
   }
 
   const handleTakeTrial = () => {
-    setAuthMode('login')
-    setShowAuth(true)
+    window.open("https://snapbillz.lovable.app/dashboard", "_blank")
   }
 
   return (
@@ -24,11 +18,18 @@ const Home = () => {
         <div className="text-center space-y-8 max-w-4xl mx-auto">
           {/* Hero Section */}
           <div className="space-y-6">
-            <h1 className="text-hero text-foreground">
-              SNAPBILLZ
-            </h1>
-            <p className="text-2xl md:text-3xl font-medium text-muted-foreground max-w-3xl mx-auto">
-              simple • fast • affordable
+            <div className="flex items-center justify-center gap-4">
+              <img 
+                src={snapbillzLogo} 
+                alt="Snapbillz Logo" 
+                className="w-16 h-16 md:w-20 md:h-20"
+              />
+              <h1 className="text-hero text-foreground">
+                SNAPBILLZ
+              </h1>
+            </div>
+            <p className="text-2xl md:text-3xl font-medium text-muted-foreground max-w-3xl mx-auto uppercase">
+              Simple • Fast • Affordable
             </p>
             <p className="text-body-lg text-muted-foreground max-w-2xl mx-auto">
               Your Smart E-Billing System Inside Your Phone
@@ -82,12 +83,6 @@ const Home = () => {
         </div>
       </div>
 
-      <AuthModal 
-        isOpen={showAuth}
-        onClose={() => setShowAuth(false)}
-        mode={authMode}
-        onSwitchMode={() => setAuthMode(authMode === 'login' ? 'signup' : 'login')}
-      />
     </main>
   )
 }
