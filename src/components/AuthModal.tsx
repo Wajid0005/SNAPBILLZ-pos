@@ -35,15 +35,46 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
     try {
       if (mode === 'login') {
         // For login, we'll use phone and password
-        toast.success("Login functionality will be implemented with backend integration")
+        const { error } = await supabase.auth.signInWithPassword({
+          phone: formData.phone,
+          password: formData.password,
+        })
+        
+        if (error) throw error
+        
+        toast.success("Successfully logged in!")
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          occupation: '',
+          password: '',
+          otp: ''
+        })
+        onClose()
       } else {
         if (!otpSent) {
           // Send OTP to phone number
+          const { error } = await supabase.auth.signInWithOtp({
+            phone: formData.phone,
+          })
+          
+          if (error) throw error
+          
           toast.success("OTP sent to your phone number!")
           setOtpSent(true)
         } else {
           // Verify OTP and create account
-          const { error } = await supabase
+          const { error: verifyError } = await supabase.auth.verifyOtp({
+            phone: formData.phone,
+            token: formData.otp,
+            type: 'sms'
+          })
+
+          if (verifyError) throw verifyError
+
+          // Create user profile after successful verification
+          const { error: insertError } = await supabase
             .from('users')
             .insert([
               {
@@ -55,7 +86,9 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
               }
             ])
 
-          if (error) throw error
+          if (insertError) {
+            console.warn('Profile creation failed:', insertError)
+          }
 
           toast.success("Account created successfully! Welcome to SnapBillz!")
           
@@ -73,6 +106,7 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
         }
       }
     } catch (error: any) {
+      console.error('Auth error:', error)
       toast.error(error.message || "Something went wrong")
     } finally {
       setLoading(false)
@@ -86,18 +120,10 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
-        <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-          <DialogTitle className="text-2xl font-semibold text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-semibold text-foreground text-center">
             {mode === 'login' ? 'Welcome Back' : 'Create Account'}
           </DialogTitle>
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={onClose}
-            className="h-6 w-6 p-0"
-          >
-            <X className="h-4 w-4" />
-          </Button>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
