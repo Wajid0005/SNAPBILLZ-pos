@@ -6,7 +6,9 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
-import { X, Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff } from "lucide-react"
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 interface AuthModalProps {
   isOpen: boolean
@@ -24,6 +26,7 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
     password: '',
     otp: ''
   })
+  const [countryCode, setCountryCode] = useState('91')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [otpSent, setOtpSent] = useState(false)
@@ -34,9 +37,12 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
 
     try {
       if (mode === 'login') {
+        // Format phone number with country code for login
+        const fullPhone = `+${countryCode}${formData.phone}`
+        
         // For login, we'll use phone and password
         const { error } = await supabase.auth.signInWithPassword({
-          phone: formData.phone,
+          phone: fullPhone,
           password: formData.password,
         })
         
@@ -54,9 +60,12 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
         onClose()
       } else {
         if (!otpSent) {
+          // Format phone number with country code
+          const fullPhone = `+${countryCode}${formData.phone}`
+          
           // Send OTP to phone number
           const { error } = await supabase.auth.signInWithOtp({
-            phone: formData.phone,
+            phone: fullPhone,
           })
           
           if (error) throw error
@@ -64,9 +73,12 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
           toast.success("OTP sent to your phone number!")
           setOtpSent(true)
         } else {
+          // Format phone number with country code
+          const fullPhone = `+${countryCode}${formData.phone}`
+          
           // Verify OTP and create account
           const { error: verifyError } = await supabase.auth.verifyOtp({
-            phone: formData.phone,
+            phone: fullPhone,
             token: formData.otp,
             type: 'sms'
           })
@@ -144,29 +156,76 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
           {mode === 'login' ? (
             <div className="space-y-2">
               <Label htmlFor="phone">Phone Number</Label>
-              <Input
-                id="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => handleChange('phone', e.target.value)}
-                placeholder="Enter your phone number"
-                required
-              />
+              <div className="flex gap-2">
+                <select
+                  value={countryCode}
+                  onChange={(e) => setCountryCode(e.target.value)}
+                  className="flex h-10 w-24 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <option value="91">+91</option>
+                  <option value="1">+1</option>
+                  <option value="44">+44</option>
+                  <option value="61">+61</option>
+                  <option value="33">+33</option>
+                  <option value="49">+49</option>
+                  <option value="81">+81</option>
+                  <option value="86">+86</option>
+                </select>
+                <Input
+                  id="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '')
+                    if (value.length <= 10) {
+                      handleChange('phone', value)
+                    }
+                  }}
+                  placeholder="Enter 10-digit number"
+                  maxLength={10}
+                  required
+                  className="flex-1"
+                />
+              </div>
             </div>
           ) : (
             <>
               {/* Phone Field */}
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone Number</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => handleChange('phone', e.target.value)}
-                  placeholder="Enter your phone number"
-                  required
-                  disabled={otpSent}
-                />
+                <div className="flex gap-2">
+                  <select
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                    className="flex h-10 w-24 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    disabled={otpSent}
+                  >
+                    <option value="91">+91</option>
+                    <option value="1">+1</option>
+                    <option value="44">+44</option>
+                    <option value="61">+61</option>
+                    <option value="33">+33</option>
+                    <option value="49">+49</option>
+                    <option value="81">+81</option>
+                    <option value="86">+86</option>
+                  </select>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '')
+                      if (value.length <= 10) {
+                        handleChange('phone', value)
+                      }
+                    }}
+                    placeholder="Enter 10-digit number"
+                    maxLength={10}
+                    required
+                    disabled={otpSent}
+                    className="flex-1"
+                  />
+                </div>
               </div>
 
               {otpSent && (
