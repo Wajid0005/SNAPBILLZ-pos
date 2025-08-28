@@ -68,7 +68,14 @@ const AuthModal = ({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) => {
             phone: fullPhone,
           })
           
-          if (error) throw error
+        if (error) {
+          if (error.message.includes('Unsupported phone provider') || error.code === 'phone_provider_disabled') {
+            toast.error("Phone OTP is not available. Please try email authentication or contact support.")
+          } else {
+            throw error
+          }
+          return
+        }
           
           toast.success("OTP sent to your phone number!")
           setOtpSent(true)

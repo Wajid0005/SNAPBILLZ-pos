@@ -1,80 +1,103 @@
+import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import Navigation from "@/components/Navigation"
+import VoiceCommandModal from "@/components/VoiceCommandModal"
+import DynamicQRModal from "@/components/DynamicQRModal" 
+import SmartUPISoundboxModal from "@/components/SmartUPISoundboxModal"
 
 const Features = () => {
+  const [activeModal, setActiveModal] = useState<string | null>(null)
+  
+  // Reordered features with Voice Commands, Dynamic QR, and Smart UPI Soundbox first
   const features = [
-    {
-      icon: "🧾",
-      title: "One-Tap Smart Billing",
-      description: "Generate professional bills with just one tap. Smart templates save time and ensure accuracy.",
-      category: "Core"
-    },
-    {
-      icon: "📱",
-      title: "Dynamic QR Codes",
-      description: "Generate instant QR codes for payments. UPI integration makes transactions seamless.",
-      category: "Payment"
-    },
-    {
-      icon: "🤖",
-      title: "Smart Inventory AI",
-      description: "AI-powered inventory tracking that learns your patterns and predicts stock needs.",
-      category: "AI"
-    },
     {
       icon: "🎤",
       title: "Voice Commands",
       description: "Create bills using voice commands. Speak naturally and let AI handle the rest.",
-      category: "AI"
+      category: "AI",
+      hasInteraction: true,
+      modalType: "voice"
     },
     {
-      icon: "🌍",
-      title: "Multi-Language Interface",
-      description: "Support for multiple languages. Your customers can interact in their preferred language.",
-      category: "Core"
+      icon: "📱",
+      title: "Dynamic QR Codes", 
+      description: "Generate instant QR codes for payments. UPI integration makes transactions seamless.",
+      category: "Payment",
+      hasInteraction: true,
+      modalType: "qr"
     },
     {
       icon: "🔊",
       title: "Smart UPI Soundbox",
       description: "Audio notifications for UPI payments. Never miss a payment confirmation.",
-      category: "Payment"
+      category: "Payment", 
+      hasInteraction: true,
+      modalType: "soundbox"
+    },
+    {
+      icon: "🧾",
+      title: "One-Tap Smart Billing",
+      description: "Generate professional bills with just one tap. Smart templates save time and ensure accuracy.",
+      category: "Core",
+      hasInteraction: false
+    },
+    {
+      icon: "🤖",
+      title: "Smart Inventory AI",
+      description: "AI-powered inventory tracking that learns your patterns and predicts stock needs.",
+      category: "AI",
+      hasInteraction: false
+    },
+    {
+      icon: "🌍",
+      title: "Multi-Language Interface",
+      description: "Support for multiple languages. Your customers can interact in their preferred language.",
+      category: "Core",
+      hasInteraction: false
     },
     {
       icon: "🧮",
       title: "Auto GST Calculator",
       description: "Automatic GST calculation and compliance. Generate GST-ready invoices instantly.",
-      category: "Finance"
+      category: "Finance",
+      hasInteraction: false
     },
     {
       icon: "📊",
-      title: "Analytics Dashboard",
+      title: "Analytics Dashboard", 
       description: "Real-time business insights. Track sales, inventory, and customer patterns.",
-      category: "Analytics"
+      category: "Analytics",
+      hasInteraction: false
     },
     {
       icon: "📴",
       title: "Offline Billing",
       description: "Work without internet. Sync automatically when connection is restored.",
-      category: "Core"
+      category: "Core",
+      hasInteraction: false
     },
     {
       icon: "👥",
       title: "Multi-User Access",
       description: "Team collaboration with role-based access. Manage permissions easily.",
-      category: "Management"
+      category: "Management",
+      hasInteraction: false
     },
     {
       icon: "📲",
       title: "SMS & WhatsApp Receipts",
       description: "Send receipts instantly via SMS or WhatsApp. Keep customers engaged.",
-      category: "Communication"
+      category: "Communication",
+      hasInteraction: false
     },
     {
       icon: "🏷️",
       title: "White Label Branding",
       description: "Customize with your brand colors, logo, and business information.",
-      category: "Branding"
+      category: "Branding",
+      hasInteraction: false
     }
   ]
 
@@ -97,7 +120,7 @@ const Features = () => {
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <Card key={index} className="group hover:shadow-medium transition-smooth">
+            <Card key={index} className="group hover:shadow-medium transition-smooth relative">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-2xl mb-4">
@@ -111,11 +134,31 @@ const Features = () => {
                   {feature.title}
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed">
                   {feature.description}
                 </p>
+                
+                {feature.hasInteraction && (
+                  <div className="pt-2">
+                    <Button
+                      onClick={() => setActiveModal(feature.modalType)}
+                      size="sm"
+                      className="w-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-smooth"
+                    >
+                      TAP
+                    </Button>
+                  </div>
+                )}
               </CardContent>
+              
+              {!feature.hasInteraction && (
+                <div className="absolute top-4 right-12">
+                  <div className="bg-primary/20 text-primary px-2 py-1 rounded-full text-xs font-medium">
+                    TAP
+                  </div>
+                </div>
+              )}
             </Card>
           ))}
         </div>
@@ -140,6 +183,22 @@ const Features = () => {
           </div>
         </div>
       </div>
+
+      {/* Interactive Modals */}
+      <VoiceCommandModal
+        isOpen={activeModal === 'voice'}
+        onClose={() => setActiveModal(null)}
+      />
+      
+      <DynamicQRModal
+        isOpen={activeModal === 'qr'}
+        onClose={() => setActiveModal(null)}
+      />
+      
+      <SmartUPISoundboxModal
+        isOpen={activeModal === 'soundbox'}
+        onClose={() => setActiveModal(null)}
+      />
     </main>
   )
 }
