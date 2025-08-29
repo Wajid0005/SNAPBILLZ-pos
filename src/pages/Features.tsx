@@ -41,63 +41,72 @@ const Features = () => {
       title: "One-Tap Smart Billing",
       description: "Generate professional bills with just one tap. Smart templates save time and ensure accuracy.",
       category: "Core",
-      hasInteraction: false
+      hasInteraction: true,
+      modalType: "billing"
     },
     {
       icon: "🤖",
       title: "Smart Inventory AI",
       description: "AI-powered inventory tracking that learns your patterns and predicts stock needs.",
       category: "AI",
-      hasInteraction: false
+      hasInteraction: true,
+      modalType: "inventory"
     },
     {
       icon: "🌍",
       title: "Multi-Language Interface",
       description: "Support for multiple languages. Your customers can interact in their preferred language.",
       category: "Core",
-      hasInteraction: false
+      hasInteraction: true,
+      modalType: "language"
     },
     {
       icon: "🧮",
       title: "Auto GST Calculator",
       description: "Automatic GST calculation and compliance. Generate GST-ready invoices instantly.",
       category: "Finance",
-      hasInteraction: false
+      hasInteraction: true,
+      modalType: "gst"
     },
     {
       icon: "📊",
       title: "Analytics Dashboard", 
       description: "Real-time business insights. Track sales, inventory, and customer patterns.",
       category: "Analytics",
-      hasInteraction: false
+      hasInteraction: true,
+      modalType: "analytics"
     },
     {
       icon: "📴",
       title: "Offline Billing",
       description: "Work without internet. Sync automatically when connection is restored.",
       category: "Core",
-      hasInteraction: false
+      hasInteraction: true,
+      modalType: "offline"
     },
     {
       icon: "👥",
       title: "Multi-User Access",
       description: "Team collaboration with role-based access. Manage permissions easily.",
       category: "Management",
-      hasInteraction: false
+      hasInteraction: true,
+      modalType: "multiuser"
     },
     {
       icon: "📲",
       title: "SMS & WhatsApp Receipts",
       description: "Send receipts instantly via SMS or WhatsApp. Keep customers engaged.",
       category: "Communication",
-      hasInteraction: false
+      hasInteraction: true,
+      modalType: "receipts"
     },
     {
       icon: "🏷️",
       title: "White Label Branding",
       description: "Customize with your brand colors, logo, and business information.",
       category: "Branding",
-      hasInteraction: false
+      hasInteraction: true,
+      modalType: "branding"
     }
   ]
 
@@ -151,14 +160,6 @@ const Features = () => {
                   </div>
                 )}
               </CardContent>
-              
-              {!feature.hasInteraction && (
-                <div className="absolute top-4 right-12">
-                  <div className="bg-primary/20 text-primary px-2 py-1 rounded-full text-xs font-medium">
-                    TAP
-                  </div>
-                </div>
-              )}
             </Card>
           ))}
         </div>
@@ -199,6 +200,19 @@ const Features = () => {
         isOpen={activeModal === 'soundbox'}
         onClose={() => setActiveModal(null)}
       />
+
+      {/* Placeholder modals for other features */}
+      {['billing', 'inventory', 'language', 'gst', 'analytics', 'offline', 'multiuser', 'receipts', 'branding'].includes(activeModal) && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setActiveModal(null)}>
+          <div className="bg-white p-8 rounded-2xl max-w-md mx-4" onClick={e => e.stopPropagation()}>
+            <h3 className="text-2xl font-semibold mb-4">Coming Soon!</h3>
+            <p className="text-muted-foreground mb-6">This feature is coming soon. Stay tuned for updates!</p>
+            <Button onClick={() => setActiveModal(null)} className="w-full">
+              Close
+            </Button>
+          </div>
+        </div>
+      )}
     </main>
   )
 }
